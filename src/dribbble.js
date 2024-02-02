@@ -148,7 +148,7 @@ export const dribbble = async (browser, url)=> new Promise(async(resolve, reject
                             const typeSocial = social.querySelector('a');
                             const textDataSocial = social.querySelector('a > span');
                             if(typeSocial === null || typeof typeSocial === 'undefined' || typeSocial.getAttribute("data-social") === null || textDataSocial === null || typeof textDataSocial === 'undefined' || typeof textDataSocial.innerText === 'undefined'){
-                                logger.info("<<< Lỗi thông tin danh sách User")
+                                console.log("<<< Lỗi thông tin danh sách User")
                             }else{
                                 return {
                                     typeSocial: typeSocial.getAttribute("data-social"),
@@ -160,7 +160,7 @@ export const dribbble = async (browser, url)=> new Promise(async(resolve, reject
                         }))
                     );
                 }else{
-                    logger.info(`<<< Không Tìm Thấy Social Của: ${name_User}`)
+                    console.log(`<<< Không Tìm Thấy Social Của: ${name_User}`)
                     socialData = { notFound: "Không Có Social" }
                 }
                 
@@ -176,26 +176,35 @@ export const dribbble = async (browser, url)=> new Promise(async(resolve, reject
                     },
                 })
                 logger.info(`>>> Data Thêm Vào Mảng: ${data.length} / ${nameLinkList.length}`)
+                console.log(`>>> Data Thêm Vào Mảng: ${data.length} / ${nameLinkList.length}`)
                 }else{
                     logger.info(`<<< Không lấy được thông tin của của: ${link}`)
+                    console.log(`<<< Không lấy được thông tin của của: ${link}`)
                 }
             }
         }
         logger.info(">>> Dữ liệu đang chứa trong mảng:",data.length)
+        console.log(">>> Dữ liệu đang chứa trong mảng:",data.length)
         
         logger.info(">>> Bắt đầu lọc tên User giống nhau...")
+        console.log(">>> Bắt đầu lọc tên User giống nhau...")
         const dataRemoveDuplicate = await removeDuplicateArray(data)
         logger.info(">>> Lọc thành công tên User giống nhau...")
+        console.log(">>> Lọc thành công tên User giống nhau...")
         // Thêm Dữ Liệu Vào Database
         logger.info(">>> Bắt đầu thêm dữ liệu vào Database...")
+        console.log(">>> Bắt đầu thêm dữ liệu vào Database...")
         await insertManyDataToDB(dataRemoveDuplicate, mongoose.connection)
         .then(() => {
             logger.info('Thực hiện thêm dữ liệu thành công!');
+            console.log('Thực hiện thêm dữ liệu thành công!');
           })
           .catch((err) => {
             logger.error('Lỗi khi thêm dữ liệu:', err);
+            console.log('Lỗi khi thêm dữ liệu:', err);
           });
           logger.info(">>> Đã thực hiện xong...")
+          console.log(">>> Đã thực hiện xong...")
         // await browser.close()
         resolve()
 

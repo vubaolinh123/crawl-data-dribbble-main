@@ -91,6 +91,7 @@ export const scrapeVecteezy = async (browser, url) =>
 
                  console.log(`Đến Page LinkUser: ${url}${linkUser}`)
                  logger.info(`Đến Page LinkUser: ${url}${linkUser}`)
+
                  await Promise.all([
                   page2.waitForNavigation(),
                   page2.goto(`${url}${linkUser}`, {timeout: 0}),
@@ -126,8 +127,6 @@ export const scrapeVecteezy = async (browser, url) =>
                     link: `${url}${linkUser}`
                   })
   
-                  // console.log("userName", userName.trim()) 
-                  // console.log("location", location.trim())
                  }
                  console.log(`Đã lưu và tải \x1b[33m${dataUser.length}\x1b[0m / \x1b[33m${nameLinkListAllPage[index].length}\x1b[0m File của Page \x1b[33m${index+1}\x1b[0m`)
                  logger.info(`Đã lưu và tải ${dataUser.length} / ${nameLinkListAllPage[index].length} File của Page ${index+1} / ${maxPageDonwload}`)

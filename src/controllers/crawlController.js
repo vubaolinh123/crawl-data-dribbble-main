@@ -14,21 +14,21 @@ export const insertManyDataToDB = async (data, dbConnection, typeDatabase) => {
       return;
     }
 
-    const count = typeDatabase == "vecteezy" ? await CrawlsVecteezy.countDocuments() : await Crawls.countDocuments()
+    const count = await typeDatabase == "vecteezy" ? await CrawlsVecteezy.countDocuments() : await Crawls.countDocuments()
     logger.info(">>> Dữ liệu sau khi được lọc trùng tên từ Website:", data.length);
     console.log(">>> Dữ liệu sau khi được lọc trùng tên từ Website:", data.length);
 
     if (count < 5) {
       logger.info('Database có ít hơn 5 bản ghi:', count);
       console.log('Database có ít hơn 5 bản ghi:', count);
-      const result = typeDatabase == "vecteezy" ? await CrawlsVecteezy.countDocuments() : await Crawls.insertMany(data);
+      const result = await typeDatabase == "vecteezy" ? await CrawlsVecteezy.insertMany(data) : await Crawls.insertMany(data);
       logger.info(">>> Đã thêm vào Database", result.length, "bản ghi");
       console.log(">>> Đã thêm vào Database", result.length, "bản ghi");
     } else {
       logger.info('Database có nhiều hơn 5 bản ghi:', count);
       console.log('Database có nhiều hơn 5 bản ghi:', count);
       
-      const allData = typeDatabase == "vecteezy" ? await CrawlsVecteezy.find() : await Crawls.find();
+      const allData = await typeDatabase == "vecteezy" ? await CrawlsVecteezy.find() : await Crawls.find();
 
       const uniqueNamesSet = new Set();
       const uniqueData = [];
@@ -44,7 +44,7 @@ export const insertManyDataToDB = async (data, dbConnection, typeDatabase) => {
       logger.info(">>> Tiến hành lọc các bản ghi trùng tên nhau.");
 
       if (newDataFiltered.length > 0) {
-        const result = typeDatabase == "vecteezy" ? await CrawlsVecteezy.insertMany(newDataFiltered) : await Crawls.insertMany(newDataFiltered);
+        const result = await typeDatabase == "vecteezy" ? await CrawlsVecteezy.insertMany(newDataFiltered) : await Crawls.insertMany(newDataFiltered);
         logger.info(">>> Đã thêm vào Database", result.length, "bản ghi mới không trùng name");
       } else {
         logger.info('Không có dữ liệu mới không trùng name để thêm vào.');
