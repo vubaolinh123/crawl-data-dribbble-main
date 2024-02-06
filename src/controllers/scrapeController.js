@@ -9,8 +9,8 @@ const scrapeControllers = async (browseInstance)=>{
     try {
         let browse = await browseInstance
         // dribbble(browse, urlDribbble) // Chạy Tool Dribble
-        // scrapeTwitter(browse, urlTwitter) // Chạy Tool Twitter
-        scrapeVecteezy(browse, urlVecteezy) // Chạy Tool Vecteezy
+        scrapeTwitter(browse, urlTwitter) // Chạy Tool Twitter
+        // scrapeVecteezy(browse, urlVecteezy) // Chạy Tool Vecteezy
 
     } catch (error) {
         console.log("Lỗi ở scrape controller",error)
@@ -18,3 +18,4 @@ const scrapeControllers = async (browseInstance)=>{
 }
 
 export default scrapeControllers
+

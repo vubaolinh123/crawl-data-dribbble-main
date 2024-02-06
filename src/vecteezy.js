@@ -30,7 +30,7 @@ export const scrapeVecteezy = async (browser, url) =>
       let checkResourceWrapper = null
       let checkResource = null
 
-      for(let i = 1; i <= maxPageDonwload; i++){ // Lấy data các Page dựa theo Page
+      for(let i = 1; i <= maxPageDonwload; i++){ // Lấy data các Page dựa theo Page Tối Đa
         await Promise.all([
             page.waitForNavigation(),
             page.goto(`${url}/free-vector/${dataSearch}?page=${i}`),

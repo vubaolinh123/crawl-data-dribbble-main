@@ -10,8 +10,8 @@ let logger = configLog.getLogger();
 export const scrapeTwitter = async (browser, url) =>
   new Promise(async (resolve, reject) => {
     try {
-      const cookiesFilePath = "cookies.json";
-      const previousSession = fs.existsSync(cookiesFilePath);
+      // const cookiesFilePath = "cookies.json";
+      // const previousSession = fs.existsSync(cookiesFilePath);
       let data = []; // Mảng lưu thông tin user crawl được
       let page = await browser.newPage();
       logger.info(">>> Mở Tab mới....");
@@ -53,6 +53,7 @@ export const scrapeTwitter = async (browser, url) =>
       let maxLikesClick = 100; // Số lượng bài viết cần Like và Comment
       let conditionComment = false
       let conditionLike = false
+      let numberToComment = 10 // Like đủ 10 bài thì sẽ Comment 1 bài
 
       do {
         try {
@@ -109,8 +110,8 @@ export const scrapeTwitter = async (browser, url) =>
               logger.info("Đã like bài viết của:", randomPost.userName);
               console.log("Đã like bài viết của:", randomPost.userName);
 
-              // Nếu Like đủ 10 bài, sẽ gắn cờ đến bao giờ tìm và comment được bài viết có Image
-              if(likesClicked % 10 === 0){
+              // Nếu Like đủ ... bài, sẽ gắn cờ đến bao giờ tìm và comment được bài viết có Image
+              if(likesClicked % numberToComment === 0){
                 conditionLike = true
                 if(randomPost.srcImage){
                   conditionComment = true
@@ -147,7 +148,7 @@ export const scrapeTwitter = async (browser, url) =>
                       await closeButton.click()
                     }
                   }else{
-                    if(dataGPT.choices[0].message.content == "I'm sorry, I can't assist with that request." || dataGPT.choices[0].message.content == "I'm sorry, I can't provide assistance with this request."){
+                    if(dataGPT.choices[0].message.content.includes("I'm sorry, I can't")){
                       if(closeButton !== null && typeof closeButton.click === 'function'){
                         await closeButton.click()
                       }
